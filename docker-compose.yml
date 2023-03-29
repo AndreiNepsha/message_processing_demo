@@ -1,0 +1,26 @@
+version: '3'
+services:
+  event-processing:
+    build:
+      context: ./
+    profiles:
+      - app
+    ports:
+      - "8000:8000"
+
+  tarantool:
+    build:
+      context: ./
+      dockerfile: Dockerfile-event-queue
+    ports:
+      - "3301:3301"
+
+  postgres:
+    image: registry-gitlab.corp.mail.ru/cxhub1/base-images/postgres14:v0.4.0
+    command: [ "postgres", "-c", "log_statement=all" ]
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: event_processing

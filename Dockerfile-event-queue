@@ -1,0 +1,3 @@
+FROM tarantool/tarantool:2.11.0-rc2-gc64
+COPY src/app/event_queue/app.lua /opt/tarantool
+CMD ["tarantool", "/opt/tarantool/app.lua"]
